@@ -1,4 +1,7 @@
 # get one 예외처리를 알아보자
+from starlette import status
+
+
 class Missing(Exception):
     def __init__(self, msg):
         super().__init__(msg)
@@ -9,18 +12,15 @@ class Duplicate(Exception):
         super().__init__(msg)
         self.msg = msg
 
-#
-# def get_one(task:str):
-#     if task !="todo":
-#         raise Missing(msg="야 없잖아")
-#     return "정상 동작"
-#
-#
-# def web():
-#     try:
-#         result = get_one("todo")
-#     except Missing as e:
-#         print(f"web에서 예외를 잡음! {e.msg}")
-#
-# if __name__ == "__main__":
-#     web()
+
+class SchoolException(Exception):
+    def __init__(self, msg, status_code: int = status.HTTP_400_BAD_REQUEST):
+        self.msg = msg
+        self.status_code = status_code
+
+class StudentNotFoundException(SchoolException):
+    def __init__(self, student_id: int):
+        super().__init__(
+            msg=f"학생 id가 {student_id}인 학생을 찾을 수 없습니다 ~~!",
+            status_code=status.HTTP_404_NOT_FOUND
+        )

@@ -1,7 +1,7 @@
 from typing import List
 
 from ch06_school.data import cur
-from ch06_school.model.department import Department
+from ch06_school.model.department import Department, DepartmentName
 from ch06_school.model.student import StudentResponse
 
 cur.executescript("""
@@ -24,18 +24,22 @@ def row_to_model(entity: tuple) -> StudentResponse:
         id=id,
         name=name,
         score=score,
-        department=Department(name=d_name)
+        department=DepartmentName(name=d_name)
     )
 
 
 def find_all() -> List[StudentResponse]:
-    query = "select s.id, s.name,s.score,d.name from student s left join department d on deepartment.id = student.department_id"
+    query = "select s.id, s.name,s.score,d.name from student s left join department d on d.id = s.department_id"
     cur.execute(query)
     return [row_to_model(row) for row in cur.fetchall()]
 
 def find_by_id(student_id: int ) -> StudentResponse:
     query = ("select s.id, s.name, s.score, d.name "
-             "from student s, department d on d.id = s.department_id "
+             "from student s left join department d on d.id = s.department_id "
              f"where s.id = {student_id}")
     cur.execute(query)
-    return row_to_model(cur.fetchone())
+    _student = cur.fetchone()
+    print(_student)
+    if _student is None:
+        return None
+    return row_to_model(_student)
