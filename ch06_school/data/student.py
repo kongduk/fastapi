@@ -33,4 +33,9 @@ def find_all() -> List[StudentResponse]:
     cur.execute(query)
     return [row_to_model(row) for row in cur.fetchall()]
 
-def find_by
+def find_by_id(student_id: int ) -> StudentResponse:
+    query = ("select s.id, s.name, s.score, d.name "
+             "from student s, department d on d.id = s.department_id "
+             f"where s.id = {student_id}")
+    cur.execute(query)
+    return row_to_model(cur.fetchone())
