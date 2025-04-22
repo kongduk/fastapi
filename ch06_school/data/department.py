@@ -2,9 +2,6 @@
 #1. 테이블 생성
 import sqlite3
 from typing import List
-
-from fastapi import Body
-
 from ch06_school.data import cur, con
 from ch06_school.error import Missing, Duplicate
 from ch06_school.model.department import Department, DepartmentResponse
@@ -39,6 +36,7 @@ def find_by_id(dept_id) -> DepartmentResponse:
     query = f'select * from department where id = {dept_id}'
     cur.execute(query)
     row = cur.fetchone()
+    print(row)
     if row:
         return row_to_model(row)
     else :

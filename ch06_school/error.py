@@ -24,3 +24,8 @@ class StudentNotFoundException(SchoolException):
             msg=f"학생 id가 {student_id}인 학생을 찾을 수 없습니다 ~~!",
             status_code=status.HTTP_404_NOT_FOUND
         )
+
+class AssignDepartmentException(Exception):
+    def __init__(self, department_id: int):
+        super().__init__()
+        self.department_id = department_id

@@ -9,3 +9,6 @@ class Student(BaseModel):
 class StudentResponse(Student):
     id: int
     department: DepartmentName
+
+class AssignDepartment(BaseModel):
+    department_id: int
